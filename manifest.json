@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "Make PI better.",
-  "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest"],
+  "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest","storage"],
   "web_accessible_resources": ["hide.png"],
   "content_scripts": [{
       "all_frames": false,

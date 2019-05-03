@@ -32,6 +32,3 @@ function checkForDOM() {
   }
 }
 requestIdleCallback(checkForDOM);
-
-
-          //      chrome.runtime.sendMessage(extensionId, this.response);
