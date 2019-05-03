@@ -1,0 +1,23 @@
+{
+  "name": "PredictIt enhancer",
+  "short_name": "PIenhancer",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Make PI better.",
+  "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest"],
+ // "web_accessible_resources": ["injected.js"],
+  "content_scripts": [{
+      "all_frames": false,
+      "matches": [ "*://www.predictit.org/*" ],
+      "js":  [ "inject.js","intercept.js" ],
+      "css": [ "inject.css" ]
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "run_at": "document_start"//,
+  //"externally_connectable": {
+  //  "matches": ["*://*.predictit.org/*","chrome-extension://mpjmoagdgejcedgfgkiibinkajcpinli/injected.js"]
+  //}
+}
