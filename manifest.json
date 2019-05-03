@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "description": "Make PI better.",
   "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest"],
- // "web_accessible_resources": ["injected.js"],
+  "web_accessible_resources": ["hide.png"],
   "content_scripts": [{
       "all_frames": false,
       "matches": [ "*://www.predictit.org/*" ],
@@ -16,8 +16,5 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "run_at": "document_start"//,
-  //"externally_connectable": {
-  //  "matches": ["*://*.predictit.org/*","chrome-extension://mpjmoagdgejcedgfgkiibinkajcpinli/injected.js"]
-  //}
+  "run_at": "document_start"
 }

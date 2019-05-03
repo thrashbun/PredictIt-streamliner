@@ -11,14 +11,15 @@
     tc.items=items;
     tc.hiddenItems=[];
     items.forEach( (item) => {
-      div=item.querySelector('.market-payout--dashboard');
-      var investment=parseFloat(div.firstElementChild.firstElementChild.innerText.substring(1));
+      div=item.querySelector('.market-payout__col-1');
+      var investment=parseFloat(div.firstElementChild.innerText.substring(1));
       if (investment < 1) {
         tc.hiddenItems.push(item);
         item.classList.add('PIe-hidden');
       }
     });
     addButton();
+    addIcon();
   }
   
   checkElement = async selector => {
@@ -61,11 +62,27 @@
     var b = hideDiv.childNodes[0].childNodes[0];
     b.textContent="Unhide";
     b.onclick = (e) => {
-      console.log("click");
       toggleHidden(e.target);
     }
     openDiv.parentElement.insertBefore(hideDiv,openDiv);
   }
+  
+  function addIcon(){
+    if(document.querySelector('.PIe-hide-icon')){
+      return;
+    }
+    var icon=document.createElement("img");
+    icon.src=chrome.runtime.getURL("hide.png");
+    icon.width="40";
+    icon.classList.add("PIe-hide-icon");
+    var rows=document.querySelectorAll('.market-payout--dashboard');
+    var row=rows[0]
+    row.insertBefore(icon,row.firstChild);
+  }
+  
+  
+  
+  
   
   document.addEventListener("chartDataLoaded",(e) => {
     console.log(e.detail);
