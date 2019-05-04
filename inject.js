@@ -101,7 +101,7 @@
     openDiv.classList.add("small-2");
     openDiv.classList.remove("small-3");
     var filtersDiv=document.querySelector('.market-filters-dashboard').parentNode;
-    filtersDiv.classList.add("small-6");
+    filtersDiv.classList.add("small-8");
     filtersDiv.classList.remove("small-9");
     var hideDiv = document.createElement("div");
     hideDiv.innerHTML = openDiv.innerHTML;
