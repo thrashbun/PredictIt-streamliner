@@ -6,15 +6,7 @@
   "description": "Make PI better.",
   "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest","storage"],
   "web_accessible_resources": ["hide.png"],
-  "content_scripts": [{
-      "all_frames": false,
-      "matches": [ "*://www.predictit.org/*" ],
-      "js":  [ "inject.js","intercept.js" ],
-      "css": [ "inject.css" ]
-    }
-  ],
   "background": {
     "scripts": ["background.js"]
-  },
-  "run_at": "document_start"
+  }
 }
