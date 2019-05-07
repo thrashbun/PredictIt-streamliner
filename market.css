@@ -1,0 +1,40 @@
+.PIe-hidden { display: none !important; } 
+.PIe-gray {
+  filter: grayscale(100%) opacity(30%); 
+}
+.PIe-chart-button {
+  cursor: pointer;
+}
+.PIe-notes {
+  width: 100%;
+  resize: vertical;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+.PIe-notes-icon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin: 0px 0px 0px 7px;
+}
+.PIe-notes-save {
+  padding: 5px 5px 5px 5px;
+  float: right;
+  margin-right: 5px;
+  margin-top: 0px;
+  margin-bottom: 5px;  
+}
+.PIe-notes-discard {
+  padding: 5px 5px 5px 5px;
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+.PIe-notes-button-row {
+  padding: 0px 5px 0px 5px;
+  overflow: hidden;
+}
+.Pie-notes-content {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
