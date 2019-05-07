@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "description": "Make PI better.",
   "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest","storage"],
-  "web_accessible_resources": ["hide.png"],
+  "web_accessible_resources": ["hide.png","collapsed.svg","expanded.svg","notes.svg","notes.png"],
   "background": {
     "scripts": ["background.js"]
   }

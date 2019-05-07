@@ -5,7 +5,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
       chrome.tabs.insertCSS(null,{file:"dashboard.css"});
     }
     
-    if(details['url']&&details['url'].match(/markets/)) {
+    if(details['url']&&details['url'].match(/markets\/detail/)) {
       chrome.tabs.executeScript(null,{file:"market.js"});
       chrome.tabs.insertCSS(null,{file:"market.css"});
     }
