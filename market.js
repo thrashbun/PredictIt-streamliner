@@ -30,13 +30,20 @@
       }
     });
     checkElement('.market-history__title').then((div) => {
+      console.log("Found market history");
       div.onclick = (e) => {
+        console.log("divonclick");
+        console.log(panel.parentNode);
         div.onclick=null;
         checkElement('.market-history__content').then((panel) => {
+          console.log("content pane loaded");
+          console.log(panel.parentNode);
           panel.parentNode.classList.add('PIe-init');
           addHistoryPanelListener(panel.parentNode.parentNode.parentNode);
         });
       }
+    },(div) => {
+      console.log("Failed to find market history");
     });
     var panel=document.createElement("div");
     panel.classList.add('PIe-chart');
@@ -47,8 +54,6 @@
       }
       chart.classList.add('PIe-init');
       createPanel(panel,chart);
-      console.log(panel);
-      console.log(chart);
       chart.appendChild(panel);
       addButton(chart);
       if (tc.chartHidden) {
@@ -63,6 +68,8 @@
     checkElement('.charts-table').then((table) => {
       chart=table.parentElement;
       createPanel(panel,chart);
+    },(table) => {
+      console.log("Failed to find chart table.");
     });
   });
   
@@ -121,7 +128,6 @@
   
   function toggleRelatedPanel(panel) {
     contentPanel=panel.querySelector('.collapsible-panel__content');
-    console.log(contentPanel);
     if (contentPanel.classList.contains('PIe-init') && !contentPanel.classList.contains('PIe-hidden')) {
       panel.firstChild.classList.remove('collapsible-panel--is-open');
       contentPanel.classList.add('PIe-hidden');
@@ -145,7 +151,6 @@
   
   function toggleHistoryPanel(panel) {
     contentPanel=panel.querySelector('.collapsible-panel__content');
-    console.log(contentPanel);
     if (contentPanel.classList.contains('PIe-init') && !contentPanel.classList.contains('PIe-hidden')) {
       panel.firstChild.classList.remove('collapsible-panel--is-open');
       contentPanel.classList.add('PIe-hidden');
@@ -204,9 +209,17 @@
   
   
   checkElement = async selector => {
-
-    while ( document.querySelector(selector) === null) {
-      await new Promise( resolve =>  requestAnimationFrame(resolve) );
+    var timeout = 5000;
+    var initTime = performance.now();
+    console.log(initTime+5000);
+    var time = 0;
+    while ( document.querySelector(selector) === null && time < initTime + timeout) {
+      
+      time = await new Promise( resolve =>  requestAnimationFrame(resolve) );
+      console.log(time);
+      if (time > initTime + timeout) {
+        return Promise.reject(400);
+      }
     }
     return document.querySelector(selector);
   };
