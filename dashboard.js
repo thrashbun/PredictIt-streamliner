@@ -163,7 +163,7 @@
       return market.querySelector('.PIe-icon');
     }
     var icon=document.createElement("img");
-    icon.src=chrome.runtime.getURL("hide.png");
+    icon.src=chrome.runtime.getURL("icons/hide.png");
     icon.width="40";
     icon.classList.add("PIe-icon");
     var row=market.querySelector('.market-payout--dashboard');

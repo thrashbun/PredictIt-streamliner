@@ -76,7 +76,7 @@
   function addButton(chart) {
     var div = document.createElement("li");
     var arrow = document.createElement("img");
-    arrow.src = chrome.runtime.getURL("expanded.svg");
+    arrow.src = chrome.runtime.getURL("icons/expanded.svg");
     div.appendChild(arrow);
     div.classList.add("PIe-chart-button");
     chart.querySelector('.charts-timeline__tabs-type').firstChild.appendChild(div);
@@ -89,11 +89,11 @@
   
   function toggleButton(arrow) {
     if (arrow.classList && arrow.classList.contains("PIe-collapsed")){
-      arrow.src = chrome.runtime.getURL("expanded.svg");
+      arrow.src = chrome.runtime.getURL("icons/expanded.svg");
       arrow.classList.remove("PIe-collapsed");
       tc.chartHidden = false;
     } else {
-      arrow.src = chrome.runtime.getURL("collapsed.svg");
+      arrow.src = chrome.runtime.getURL("icons/collapsed.svg");
       arrow.classList.add("PIe-collapsed");
       tc.chartHidden = true;
     }
@@ -182,7 +182,7 @@
   
   function addNotesButton(div){
     var button=document.createElement("img");
-    button.src=chrome.runtime.getURL("notes.svg");
+    button.src=chrome.runtime.getURL("icons/notes.svg");
     button.classList.add("PIe-notes-icon");
     if (tc.notes === "") {
       button.classList.add("PIe-gray");

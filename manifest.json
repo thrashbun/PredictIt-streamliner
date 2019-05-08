@@ -1,11 +1,11 @@
 {
   "name": "PredictIt enhancer",
-  "short_name": "PIenhancer",
-  "version": "0.0.1",
+  "short_name": "PI-enhancer",
+  "version": "0.0.0.1",
   "manifest_version": 2,
   "description": "Make PI better.",
   "permissions": [ "*://www.predictit.org/*","activeTab","tabs","webNavigation","webRequest","storage"],
-  "web_accessible_resources": ["hide.png","collapsed.svg","expanded.svg","notes.svg","notes.png"],
+  "web_accessible_resources": ["icons/*"],
   "background": {
     "scripts": ["background.js"]
   }
