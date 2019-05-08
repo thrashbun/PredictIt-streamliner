@@ -1,15 +1,21 @@
   var tc={};
   
-  chrome.storage.sync.get({"hiddenMarketIds":[],"hidden":true}, (storage) => {
+  chrome.storage.sync.get({"hiddenMarketIds":[],"marketsHidden":true}, (storage) => {
     tc.hiddenMarketIds=storage.hiddenMarketIds;
-    tc.hidden=storage.hidden;
-    checkElement('.market-payout__price');
+    tc.hidden=storage.marketsHidden;
+    checkElement('.market-payout__price').then((div) => {
+      hideMarkets(document);
+    });
+    checkElement('.dashboard-desktop__header--plus,.dashboard-desktop__header--minus').then((gainEl) => {
+      setGainObserver(gainEl.parentNode);
+    });
   });
   
-  function initializeNow(document) {
+  function hideMarkets(document) {
     var markets = document.querySelectorAll(".portfolio-my-markets__item");
     tc.markets=markets;
     tc.hiddenMarkets=[];
+    tc.gain=0;
     markets.forEach( (market) => {
       var icon=addIcon(market);
       div=market.querySelector('.market-payout__col-1');
@@ -19,7 +25,6 @@
       market.dataset['marketId']=id;
       if (tc.hiddenMarketIds.includes(id)) {
         tc.hiddenMarkets.push(market);
-        market.classList.add('PIe-hidden');
       }
       else {
         icon.classList.add('PIe-gray');
@@ -32,16 +37,47 @@
     addButton();
   }
   
-  checkElement = async selector => {
-
-    while ( document.querySelector(selector) === null) {
-      await new Promise( resolve =>  requestAnimationFrame(resolve) )
-    }
-    initializeNow(document);
-    return document.querySelector(selector);
-  };
+  function calcAndSetGain() {
+    tc.gain=0;
+    tc.markets.forEach( (market) => {
+      if (!market.classList.contains("PIe-hidden")) {
+        let change = market.querySelector('.market-change-price');
+        let sign = 1;
+        if (change.classList.contains('market-change-price--down')) {
+          sign = -1;
+        }
+        tc.gain += sign*Number(change.textContent.substring(1));
+      }
+    });
+    setGain();
+  }
   
-
+  function setGainObserver(gainEl) {
+    tc.observer = new MutationObserver((mutations) => {
+      setGain();
+      mutations.forEach((mutation) => {
+      });
+    });
+    tc.observer.observe(gainEl,{childList: true, subtree: true});
+    setGain();
+  }    
+      
+    
+  
+  function setGain() {
+    var gainEl = document.querySelector('.dashboard-desktop__header--plus,.dashboard-desktop__header--minus');
+    if (!gainEl || (gainEl.textContent === formatGain(tc.gain))) {
+      return;
+    }
+    if (tc.gain > 0) {
+      gainEl.classList.add('dashboard-desktop__header--plus');
+      gainEl.classList.remove('dashboard-desktop__header--minus');
+    } else {
+      gainEl.classList.remove('dashboard-desktop__header--plus');
+      gainEl.classList.add('dashboard-desktop__header--minus');
+    }
+    gainEl.textContent = formatGain(tc.gain);//"$"+Math.abs(Math.round(tc.gain*100)/100);
+  }
   
   function toggleMarketHidden(market) {
     var index=tc.hiddenMarkets.indexOf(market);
@@ -59,13 +95,11 @@
     }
     tc.hiddenMarketIds = [];
     tc.hiddenMarkets.forEach( (market) => {
-      console.log(market);
       tc.hiddenMarketIds.push(market.dataset['marketId']);
     });
-    chrome.storage.sync.set({"hiddenMarketIds":tc.hiddenMarketIds},function(){
-      console.log("value is set to : "+tc.hiddenMarketIds);
-    });
+    chrome.storage.sync.set({"hiddenMarketIds":tc.hiddenMarketIds},function(){ });
     icon.classList.toggle('PIe-gray');
+    calcAndSetGain();
   }
       
   
@@ -79,18 +113,21 @@
       showHidden();
       tc.hidden=false;
     }
+    chrome.storage.sync.set({"marketsHidden":tc.hidden},function() {});
   }
   
   function showHidden(){
     tc.hiddenMarkets.forEach( (market) => {
       market.classList.remove('PIe-hidden');
     });
+      calcAndSetGain();
   }
   
   function hideHidden(){
     tc.hiddenMarkets.forEach( (market) => {
       market.classList.add('PIe-hidden');
     });
+    calcAndSetGain()
   }
   
   function addButton(){
@@ -109,7 +146,12 @@
     hideDiv.classList.add("small-2");
     hideDiv.classList.add("PIe-button");
     var b = hideDiv.childNodes[0].childNodes[0];
-    b.textContent="Unhide";
+    if (tc.hidden) {
+      b.textContent="Unhide";
+      hideHidden();
+    } else {
+      b.textContent="Hide";
+    }
     b.onclick = (e) => {
       toggleButtonStatus(e.target);
     }
@@ -129,9 +171,32 @@
     return icon;
   }
   
+  checkElement = async selector => {
+    var timeout = 5000;
+    var initTime = performance.now();
+    var time = 0;
+    while ( document.querySelector(selector) === null && time < initTime + timeout) {
+      time = await new Promise( resolve =>  requestAnimationFrame(resolve) );
+      if (time > initTime + timeout) {
+        return Promise.reject(400);
+      }
+    }
+    return document.querySelector(selector);
+  };
   
-  
-  
+  function formatGain(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+  try {
+    decimalCount = Math.abs(decimalCount);
+    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+    let j = (i.length > 3) ? i.length % 3 : 0;
+
+    return (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+  } catch (e) {
+    console.log(e)
+  }
+};
   
   //document.addEventListener("chartDataLoaded",(e) => {
   //  console.log(e.detail);

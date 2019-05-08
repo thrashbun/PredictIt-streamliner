@@ -9,7 +9,6 @@
       //return;
     }
     document.body.classList.add('PIe-init');
-    console.log("going");
     tc.chartHidden=storage.chartHidden;
     tc.relatedHidden=storage.relatedHidden;
     tc.notes=storage[tc.id];
@@ -24,21 +23,14 @@
       if (tc.relatedHidden){
         toggleRelatedPanel(panel);
         tc.relatedHidden=true;
-        chrome.storage.sync.set({"relatedHidden":tc.relatedHidden},function(){
-          console.log("relatedHidden is set to : "+tc.relatedHidden);
-        });
+        chrome.storage.sync.set({"relatedHidden":tc.relatedHidden},function(){});
       }
     });
     checkElement('.market-history__title').then((div) => {
-      console.log("Found market history");
+      div = div.parentNode.parentNode;
       div.onclick = (e) => {
-        console.log("divonclick");
-        console.log(panel.parentNode);
         div.onclick=null;
         checkElement('.market-history__content').then((panel) => {
-          console.log("content pane loaded");
-          console.log(panel.parentNode);
-          panel.parentNode.classList.add('PIe-init');
           addHistoryPanelListener(panel.parentNode.parentNode.parentNode);
         });
       }
@@ -60,16 +52,14 @@
         toggleButton(chart.querySelector('.PIe-chart-button').firstChild);
         toggleChart(panel);
         tc.chartHidden=true;
-        chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){
-          console.log("chartHidden is set to : "+tc.chartHidden);
-        });
+        chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){});
       }
     });
     checkElement('.charts-table').then((table) => {
       chart=table.parentElement;
       createPanel(panel,chart);
     },(table) => {
-      console.log("Failed to find chart table.");
+      console.log("Failed to find chart table.  ");
     });
   });
   
@@ -107,9 +97,7 @@
       arrow.classList.add("PIe-collapsed");
       tc.chartHidden = true;
     }
-    chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){
-      console.log("chartHidden is set to : "+tc.chartHidden);
-    });
+    chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){});
   }
   
   function toggleChart(chart) {
@@ -138,19 +126,17 @@
       tc.relatedHidden=false;
     }
     contentPanel.classList.add('PIe-init');
-    chrome.storage.sync.set({"relatedHidden":tc.relatedHidden},function(){
-      console.log("relatedHidden is set to : "+tc.relatedHidden);
-    });
+    chrome.storage.sync.set({"relatedHidden":tc.relatedHidden},function(){});
   }
   
   function addHistoryPanelListener(panel) {
     panel.onclick = (e) => {
-      toggleHistoryPanel(panel)
+      toggleHistoryPanel(panel);
     } 
   }
   
   function toggleHistoryPanel(panel) {
-    contentPanel=panel.querySelector('.collapsible-panel__content');
+    var contentPanel=panel.querySelector('.collapsible-panel__content');
     if (contentPanel.classList.contains('PIe-init') && !contentPanel.classList.contains('PIe-hidden')) {
       panel.firstChild.classList.remove('collapsible-panel--is-open');
       contentPanel.classList.add('PIe-hidden');
@@ -211,12 +197,9 @@
   checkElement = async selector => {
     var timeout = 5000;
     var initTime = performance.now();
-    console.log(initTime+5000);
     var time = 0;
     while ( document.querySelector(selector) === null && time < initTime + timeout) {
-      
       time = await new Promise( resolve =>  requestAnimationFrame(resolve) );
-      console.log(time);
       if (time > initTime + timeout) {
         return Promise.reject(400);
       }
