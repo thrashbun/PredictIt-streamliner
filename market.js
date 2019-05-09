@@ -4,6 +4,7 @@
   var id=tc.id;
   var storageDict={"relatedHidden":false,"chartHidden":false,"notesHeight":"150px"};
   storageDict[tc.id] = "";
+  storageDict["rulesHidden"+tc.id] = false;
   chrome.storage.sync.get(storageDict, (storage) => {
     if (document.body.classList.contains('PIe-init')) {
       //return;
@@ -13,9 +14,11 @@
     tc.relatedHidden=storage.relatedHidden;
     tc.notes=storage[tc.id];
     tc.notesHeight=storage.notesHeight;
+    tc.rulesHidden=storage["rulesHidden"+tc.id];
     checkElement('.market-header-title-large__watch').then((div) => {
       addNotesButton(div);
       createNotesPanel();
+      addRulesButton(div);
     });
     checkElement('.market-related').then((panel) => {
       panel.querySelector('.collapsible-panel__content').classList.add('PIe-init');
@@ -190,6 +193,25 @@
     div.appendChild(button);
     button.onclick = (event) => {
       document.querySelector(".PIe-notes-container").classList.toggle("PIe-hidden");
+    }
+  }
+  
+  function addRulesButton(div){
+    var button=document.createElement("img");
+    button.src=chrome.runtime.getURL("icons/rules.png");
+    button.classList.add("PIe-rules-icon");
+    if (tc.rulesHidden) {
+      button.classList.add("PIe-gray");
+      document.querySelector(".market-rules").classList.add("PIe-hidden");
+    }
+    div.appendChild(button);
+    button.onclick = (event) => {
+      document.querySelector(".market-rules").classList.toggle("PIe-hidden");
+      button.classList.toggle("PIe-gray");
+      var map={};
+      tc.rulesHidden = !tc.rulesHidden;
+      map["rulesHidden"+tc.id] = tc.rulesHidden;
+      chrome.storage.sync.set(map,function() {});
     }
   }
   
