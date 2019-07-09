@@ -1,6 +1,6 @@
   var tc={};
   
-  tc.id=location.href.match(/(?<=detail\/).*(?=\/)/g)[0];
+  tc.id=location.href.match(/(?<=detail\/)\d*/g)[0];
   var id=tc.id;
   var storageDict={"relatedHidden":false,"chartHidden":false,"notesHeight":"150px"};
   storageDict[tc.id] = "";
