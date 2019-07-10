@@ -32,3 +32,9 @@ function checkForDOM() {
   }
 }
 requestIdleCallback(checkForDOM);
+
+
+//in content script include:
+  //document.addEventListener("chartDataLoaded",(e) => {
+  //  console.log(e.detail);
+  //});

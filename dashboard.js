@@ -198,6 +198,3 @@
   }
 };
   
-  //document.addEventListener("chartDataLoaded",(e) => {
-  //  console.log(e.detail);
-  //});
