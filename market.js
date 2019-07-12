@@ -19,6 +19,11 @@
       addNotesButton(div);
       createNotesPanel();
       addRulesButton(div);
+      var title = document.querySelector(".market-header-title-large__text");
+      if (!title) {
+        return;
+      }
+      resizeIfNeeded(title,div,0);        
     });
     checkElement('.market-related').then((panel) => {
       panel.querySelector('.collapsible-panel__content').classList.add('PIe-init');
@@ -87,6 +92,25 @@
       toggleButton(arrow);
       var chart = document.querySelector('.PIe-chart');
       toggleChart(chart);
+    }
+  }
+  
+  function resizeIfNeeded(title,iconsDiv,depth) {
+    if (depth > 5) {
+      return;
+    }
+    var titleRect = title.getBoundingClientRect();
+    var iconsRect = iconsDiv.getBoundingClientRect();
+    var overlap = !(titleRect.right < iconsRect.left || 
+          titleRect.left > iconsRect.right || 
+          titleRect.bottom < iconsRect.top || 
+          titleRect.top > iconsRect.bottom);
+    if (overlap) {
+      var currentSize = parseInt(window.getComputedStyle(title)["fontSize"],10);
+      console.log(currentSize);
+      title.style.fontSize = currentSize*.97+"px";
+      console.log(title.style.fontSize);
+      resizeIfNeeded(title,iconsDiv,depth+1);
     }
   }
   
