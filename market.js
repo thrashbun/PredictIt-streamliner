@@ -187,6 +187,7 @@
     var button=document.createElement("img");
     button.src=chrome.runtime.getURL("icons/notes.svg");
     button.classList.add("PIe-notes-icon");
+    button.title = "Open/Close Notes";
     if (tc.notes === "") {
       button.classList.add("PIe-gray");
     }
@@ -200,16 +201,24 @@
     var button=document.createElement("img");
     button.src=chrome.runtime.getURL("icons/rules.png");
     button.classList.add("PIe-rules-icon");
+    button.title = "Hide Rules";
     if (tc.rulesHidden) {
       button.classList.add("PIe-gray");
+      button.title = "Show Rules";
       document.querySelector(".market-rules").classList.add("PIe-hidden");
     }
     div.appendChild(button);
     button.onclick = (event) => {
+      tc.rulesHidden = !tc.rulesHidden;
       document.querySelector(".market-rules").classList.toggle("PIe-hidden");
       button.classList.toggle("PIe-gray");
+      if (tc.rulesHidden) {
+        button.title = "Show Rules";
+      }
+      else {
+        button.title = "Hide Rules";
+      }
       var map={};
-      tc.rulesHidden = !tc.rulesHidden;
       map["rulesHidden"+tc.id] = tc.rulesHidden;
       chrome.storage.sync.set(map,function() {});
     }
