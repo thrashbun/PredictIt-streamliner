@@ -19,6 +19,9 @@
     markets.forEach( (market) => {
       var icon=addIcon(market);
       div=market.querySelector('.market-payout__col-1');
+      if (!div){
+         return;
+      }
       var link=market.querySelector('.market-payout__payout-link-market');
       var id=link.href.match(/(?<=detail\/).*(?=\/)/g)[0];
       icon.dataset['marketId']=id;
@@ -42,6 +45,9 @@
     tc.markets.forEach( (market) => {
       if (!market.classList.contains("PIe-hidden")) {
         let change = market.querySelector('.market-change-price');
+        if (!change) {
+          return;
+        }
         let sign = 1;
         if (change.classList.contains('market-change-price--down')) {
           sign = -1;
@@ -167,7 +173,9 @@
     icon.width="40";
     icon.classList.add("PIe-icon");
     var row=market.querySelector('.market-payout--dashboard');
-    row.insertBefore(icon,row.firstChild);
+    if (row) {
+      row.insertBefore(icon,row.firstChild);
+    }
     return icon;
   }
   
