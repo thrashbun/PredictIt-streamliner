@@ -24,7 +24,7 @@
         return;
       }
       resizeIfNeeded(title,div,0);        
-    });
+    }).catch( error =>  console.log(error) );
     checkElement('.market-related').then((panel) => {
       panel.querySelector('.collapsible-panel__content').classList.add('PIe-init');
       addRelatedPanelListener(panel);
@@ -33,18 +33,18 @@
         tc.relatedHidden=true;
         chrome.storage.sync.set({"relatedHidden":tc.relatedHidden},function(){});
       }
-    });
+    }).catch( error =>  console.log(error) );
     checkElement('.market-history__title').then((div) => {
       div = div.parentNode.parentNode;
       div.onclick = (e) => {
         div.onclick=null;
         checkElement('.market-history__content').then((panel) => {
           addHistoryPanelListener(panel.parentNode.parentNode.parentNode);
-        });
+        }).catch( error =>  console.log(error) );
       }
     },(div) => {
       console.log("Failed to find market history");
-    });
+    }).catch( error =>  console.log(error) );
     var panel=document.createElement("div");
     panel.classList.add('PIe-chart');
     checkElement('.charts-timeline').then((tabs) => {
@@ -62,13 +62,13 @@
         tc.chartHidden=true;
         chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){});
       }
-    });
+    }).catch( error =>  console.log(error) );
     checkElement('.charts-table').then((table) => {
       chart=table.parentElement;
       createPanel(panel,chart);
     },(table) => {
       console.log("Failed to find chart table.  ");
-    });
+    }).catch( error =>  console.log(error) );
   });
   
   function createPanel(panel,chart) {
