@@ -107,9 +107,7 @@
           titleRect.top > iconsRect.bottom);
     if (overlap) {
       var currentSize = parseInt(window.getComputedStyle(title)["fontSize"],10);
-      console.log(currentSize);
       title.style.fontSize = currentSize*.97+"px";
-      console.log(title.style.fontSize);
       resizeIfNeeded(title,iconsDiv,depth+1);
     }
   }
@@ -209,7 +207,7 @@
   
   function addNotesButton(div){
     var button=document.createElement("img");
-    button.src=chrome.runtime.getURL("icons/notes.svg");
+    button.src=chrome.runtime.getURL("icons/notes.png");
     button.classList.add("PIe-notes-icon");
     button.title = "Open/Close Notes";
     if (tc.notes === "") {
