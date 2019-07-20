@@ -8,15 +8,5 @@
   "web_accessible_resources": ["icons/*"],
   "background": {
     "scripts": ["background.js"]
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://projects.fivethirtyeight.com/trump-approval-ratings/*"],
-      "js": ["538approval.js"]
-    },
-    {
-      "matches": ["https://projects.fivethirtyeight.com/congress-generic-ballot-polls/*"],
-      "js": ["538generic.js"]
-    }
-  ]
+  }
 }
