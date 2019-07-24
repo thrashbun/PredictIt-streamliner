@@ -63,11 +63,18 @@
         chrome.storage.sync.set({"chartHidden":tc.chartHidden},function(){});
       }
     }).catch( error =>  console.log(error) );
+    
     checkElement('.charts-table').then((table) => {
       chart=table.parentElement;
       createPanel(panel,chart);
     },(table) => {
       console.log("Failed to find chart table.  ");
+    }).catch( error =>  console.log(error) );
+    
+    checkAllElements('.market-contract-horizontal-v2__title-text').then((markets) => {
+      labelMarkets(markets);
+    },(markets) => {
+      console.log("Failed to find markets.  ");
     }).catch( error =>  console.log(error) );
   });
   
@@ -246,16 +253,43 @@
     }
   }
   
+  function labelMarkets(markets) {
+    var count = 1;
+    markets.forEach( (market) => {
+      if (market.textContent.match(/\d/)) {
+        var title = document.createElement("span");
+        title.textContent = "B" + count + ") ";
+        title.style.fontSize = "24px";
+        market.parentElement.insertBefore(title,market)
+        count++;
+      }
+    });
+  }
   
   checkElement = async selector => {
     var timeout = 5000;
     var initTime = performance.now();
     var time = 0;
-    while ( document.querySelector(selector) === null && time < initTime + timeout) {
+    while (document.querySelector(selector) === null && time < initTime + timeout) {
       time = await new Promise( resolve =>  requestAnimationFrame(resolve) );
       if (time > initTime + timeout) {
+        console.log("Timed out");
         return Promise.reject(400);
       }
     }
     return document.querySelector(selector);
+  };
+  
+  checkAllElements = async selector => {
+    var timeout = 5000;
+    var initTime = performance.now();
+    var time = 0;
+    while (document.querySelectorAll(selector).length === 0 && time < initTime + timeout) {
+      time = await new Promise( resolve =>  requestAnimationFrame(resolve) );
+      if (time > initTime + timeout) {
+        console.log("Timed out");
+        return Promise.reject(400);
+      }
+    }
+    return document.querySelectorAll(selector);
   };
