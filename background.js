@@ -7,6 +7,8 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
     }
     last_timeStamp=details['timeStamp'];
     
+    chrome.tabs.executeScript(null,{file:"cssInjection.js"});
+    
     if(details['url']&&details['url'].match(/dashboard/)) {
       chrome.tabs.executeScript(null,{file:"dashboard.js"});
       chrome.tabs.insertCSS(null,{file:"dashboard.css"});
