@@ -5,6 +5,12 @@
 .PIe-chart-button {
   cursor: pointer;
 }
+
+.PIe-chart-img {
+  width: 21px;
+  height: 12px;
+}
+
 .PIe-notes {
   width: 100%;
   resize: vertical;
@@ -40,7 +46,7 @@
   padding: 0px 5px 0px 5px;
   overflow: hidden;
 }
-.Pie-notes-content {
+.PIe-notes-content {
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
 }

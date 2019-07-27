@@ -1,7 +1,7 @@
 var last_timeStamp=0;
 chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
     
-    if (Math.abs(details['timeStamp']-last_timeStamp) < 100) {
+    if (Math.abs(details['timeStamp']-last_timeStamp) < 200) {
       console.log("double fire");
       return;
     }

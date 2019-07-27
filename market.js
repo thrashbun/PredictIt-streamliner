@@ -92,6 +92,7 @@
     var div = document.createElement("li");
     var arrow = document.createElement("img");
     arrow.src = chrome.runtime.getURL("icons/expanded.png");
+    arrow.classList.add('PIe-chart-img');
     div.appendChild(arrow);
     div.classList.add("PIe-chart-button");
     chart.querySelector('.charts-timeline__tabs-type').firstChild.appendChild(div);
