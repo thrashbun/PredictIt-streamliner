@@ -45,7 +45,7 @@
     tc.markets.forEach( (market) => {
       if (!market.classList.contains("PIe-hidden")) {
         let change = market.querySelector('.market-change-price');
-        if (!change) {
+    if (!change || change.textContent == 'NC') {
           return;
         }
         let sign = 1;
@@ -65,7 +65,7 @@
       });
     });
     tc.observer.observe(gainEl,{childList: true, subtree: true});
-    setGain();
+    calcAndSetGain();
   }    
       
     
