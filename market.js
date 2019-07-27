@@ -91,7 +91,7 @@
   function addButton(chart) {
     var div = document.createElement("li");
     var arrow = document.createElement("img");
-    arrow.src = chrome.runtime.getURL("icons/expanded.svg");
+    arrow.src = chrome.runtime.getURL("icons/expanded.png");
     div.appendChild(arrow);
     div.classList.add("PIe-chart-button");
     chart.querySelector('.charts-timeline__tabs-type').firstChild.appendChild(div);
@@ -121,11 +121,11 @@
   
   function toggleButton(arrow) {
     if (arrow.classList && arrow.classList.contains("PIe-collapsed")){
-      arrow.src = chrome.runtime.getURL("icons/expanded.svg");
+      arrow.src = chrome.runtime.getURL("icons/expanded.png");
       arrow.classList.remove("PIe-collapsed");
       tc.chartHidden = false;
     } else {
-      arrow.src = chrome.runtime.getURL("icons/collapsed.svg");
+      arrow.src = chrome.runtime.getURL("icons/collapsed.png");
       arrow.classList.add("PIe-collapsed");
       tc.chartHidden = true;
     }
