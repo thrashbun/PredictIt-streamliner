@@ -6,9 +6,6 @@
     checkElement('.market-payout__price').then((div) => {
       hideMarkets(document);
     }).catch( error =>  console.log(error) );
-    checkElement('.dashboard-desktop__header--plus,.dashboard-desktop__header--minus').then((gainEl) => {
-      setGainObserver(gainEl.parentNode);
-    }).catch( error =>  console.log(error) );
   });
   
   function hideMarkets(document) {
@@ -38,6 +35,9 @@
       }
     });
     addButton();
+    checkElement('.dashboard-desktop__header--plus,.dashboard-desktop__header--minus').then((gainEl) => {
+      setGainObserver(gainEl.parentNode);
+    }).catch( error =>  console.log(error) );
   }
   
   function calcAndSetGain() {
